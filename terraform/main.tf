@@ -65,8 +65,8 @@ resource "azurerm_app_service_plan" "main" {
   reserved            = true
 
   sku {
-    tier = "Standard"
-    size = "P1V2"
+    tier = "PremiumV2"
+    size = "P1v2"
   }
 }
 
@@ -80,7 +80,7 @@ resource "azurerm_app_service" "main" {
 
   site_config {
     always_on        = true
-    linux_fx_version = "JAVA|11-java11"
+    linux_fx_version = "JAVA|8-jre8"
   }
 
   app_settings = {
