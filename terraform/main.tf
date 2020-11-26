@@ -1,5 +1,6 @@
 provider "azurerm" {
-  version = "~>1.32.0"
+  version = "=2.20.0"
+  features {}
 }
 
 resource "azurerm_resource_group" "main" {
@@ -15,27 +16,23 @@ resource "random_password" "password" {
 
 # This creates a MySQL server
 resource "azurerm_mysql_server" "main" {
-  name                = "${azurerm_resource_group.main.name}-mysql-server"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
+  name                              = "${azurerm_resource_group.main.name}-mysql-server"
+  location                          = azurerm_resource_group.main.location
+  resource_group_name               = azurerm_resource_group.main.name
 
-  sku {
-    name     = "B_Gen5_1"
-    capacity = 1
-    tier     = "Basic"
-    family   = "Gen5"
-  }
+  administrator_login               = "petclinic"
+  administrator_login_password      = random_password.password.result
 
-  storage_profile {
-    storage_mb            = 5120
-    backup_retention_days = 7
-    geo_redundant_backup  = "Disabled"
-  }
-
-  administrator_login          = "petclinic"
-  administrator_login_password = random_password.password.result
-  version                      = "5.7"
-  ssl_enforcement              = "Disabled"
+  sku_name   = "B_Gen5_1"
+  storage_mb = 5120
+  version    = "5.7"
+  auto_grow_enabled                 = true
+  backup_retention_days             = 7
+  geo_redundant_backup_enabled      = false
+  infrastructure_encryption_enabled = false
+  public_network_access_enabled     = true
+  ssl_enforcement_enabled           = true
+  ssl_minimal_tls_version_enforced  = "TLS1_2"
 }
 
 # This is the database that our application will use
