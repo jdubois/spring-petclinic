@@ -416,5 +416,15 @@
         </pluginManagement>
       </build>
     </profile>
+    <profile>
+      <id>dev</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.julien-dubois.bootui</groupId>
+          <artifactId>bootui-spring-boot-starter</artifactId>
+          <version>1.5.2</version>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
 </project>
